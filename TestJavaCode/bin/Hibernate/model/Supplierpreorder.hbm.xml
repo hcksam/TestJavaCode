@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015?~6??23?? ?U??07:41:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Hibernate.model.Supplierpreorder" table="supplierpreorder" catalog="phoneartshop" optimistic-lock="version">
+        <id name="preOrderId" type="int">
+            <column name="preOrderID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="shop" class="Hibernate.model.Shop" fetch="select">
+            <column name="shopID" />
+        </many-to-one>
+        <property name="appraiseHkdtotalPrice" type="java.lang.Integer">
+            <column name="appraiseHKDTotalPrice" />
+        </property>
+        <property name="oreOrderRemark" type="string">
+            <column name="oreOrderRemark" length="250" />
+        </property>
+        <property name="preOrderStatus" type="string">
+            <column name="preOrderStatus" length="10" not-null="true" />
+        </property>
+        <property name="lastUpdateUser" type="int">
+            <column name="lastUpdateUser" not-null="true" />
+        </property>
+        <property name="lastUpdateDate" type="date">
+            <column name="lastUpdateDate" length="0" not-null="true" />
+        </property>
+        <set name="supplierpreorderlines" table="supplierpreorderline" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="preOrderID" />
+            </key>
+            <one-to-many class="Hibernate.model.Supplierpreorderline" />
+        </set>
+    </class>
+</hibernate-mapping>

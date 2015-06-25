@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<table catalog="phoneartshop" name="logisticsorder"></table>
+	<table catalog="phoneartshop" name="supplierorder"></table>
+	<table catalog="phoneartshop" name="productcompany"></table>
+	<table catalog="phoneartshop" name="product"></table>
+	<table catalog="phoneartshop" name="supplierpreorderline"></table>
+	<table catalog="phoneartshop" name="inventory"></table>
+	<table catalog="phoneartshop" name="logisticsorderline"></table>
+	<table catalog="phoneartshop" name="productcolor"></table>
+	<table catalog="phoneartshop" name="supplierorderline"></table>
+	<table catalog="phoneartshop" name="shop"></table>
+	<table catalog="phoneartshop" name="supplierpreorder"></table>
+	<table catalog="phoneartshop" name="mobileproduct"></table>
+	<table catalog="phoneartshop" name="mobilecovertype"></table>
+	<table catalog="phoneartshop" name="lost"></table>
+	<table catalog="phoneartshop" name="lend"></table>
+	<table catalog="phoneartshop" name="supplier"></table>
+	<table catalog="phoneartshop" name="producttype"></table>
+	<table catalog="phoneartshop" name="sales"></table>
+	<table catalog="phoneartshop" name="user"></table>
+	<table catalog="phoneartshop" name="supplierproductline"></table>
+</hibernate-reverse-engineering>

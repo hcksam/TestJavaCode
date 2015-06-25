@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015?~6??23?? ?U??07:41:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Hibernate.model.Shop" table="shop" catalog="phoneartshop" optimistic-lock="version">
+        <id name="shopId" type="int">
+            <column name="shopID" />
+            <generator class="assigned" />
+        </id>
+        <property name="shopName" type="int">
+            <column name="shopName" not-null="true" />
+        </property>
+        <property name="shopType" type="string">
+            <column name="shopType" length="10" not-null="true" />
+        </property>
+        <property name="shopRemark" type="string">
+            <column name="shopRemark" length="250" />
+        </property>
+        <property name="shopStatus" type="string">
+            <column name="shopStatus" length="10" not-null="true" />
+        </property>
+        <set name="losts" table="lost" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="shopID" />
+            </key>
+            <one-to-many class="Hibernate.model.Lost" />
+        </set>
+        <set name="supplierorders" table="supplierorder" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="shopID" />
+            </key>
+            <one-to-many class="Hibernate.model.Supplierorder" />
+        </set>
+        <set name="supplierpreorders" table="supplierpreorder" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="shopID" />
+            </key>
+            <one-to-many class="Hibernate.model.Supplierpreorder" />
+        </set>
+        <set name="logisticsorders" table="logisticsorder" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="shopID" />
+            </key>
+            <one-to-many class="Hibernate.model.Logisticsorder" />
+        </set>
+        <set name="saleses" table="sales" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="shopID" />
+            </key>
+            <one-to-many class="Hibernate.model.Sales" />
+        </set>
+        <set name="inventories" table="inventory" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="shopID" />
+            </key>
+            <one-to-many class="Hibernate.model.Inventory" />
+        </set>
+    </class>
+</hibernate-mapping>

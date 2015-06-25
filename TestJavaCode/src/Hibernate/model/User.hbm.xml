@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015?~6??23?? ?U??07:41:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Hibernate.model.User" table="user" catalog="phoneartshop" optimistic-lock="version">
+        <id name="userId" type="int">
+            <column name="userID" />
+            <generator class="assigned" />
+        </id>
+        <property name="userName" type="string">
+            <column name="userName" length="30" />
+        </property>
+        <property name="userPhone" type="java.lang.Integer">
+            <column name="userPhone" />
+        </property>
+        <property name="userType" type="string">
+            <column name="userType" length="10" not-null="true" />
+        </property>
+        <property name="userRemark" type="string">
+            <column name="userRemark" length="250" />
+        </property>
+        <property name="userStatus" type="string">
+            <column name="userStatus" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015?~6??23?? ?U??07:41:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Hibernate.model.Logisticsorder" table="logisticsorder" catalog="phoneartshop" optimistic-lock="version">
+        <id name="logisticsOrderId" type="int">
+            <column name="logisticsOrderID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="shop" class="Hibernate.model.Shop" fetch="select">
+            <column name="shopID" />
+        </many-to-one>
+        <property name="logisticsOrderReceiveDate" type="date">
+            <column name="logisticsOrderReceiveDate" length="0" />
+        </property>
+        <property name="logisticsOrderRemark" type="string">
+            <column name="logisticsOrderRemark" length="250" />
+        </property>
+        <property name="logisticsOrderStatus" type="string">
+            <column name="logisticsOrderStatus" length="10" not-null="true" />
+        </property>
+        <property name="lastUpdateUser" type="int">
+            <column name="lastUpdateUser" not-null="true" />
+        </property>
+        <property name="lastUpdateDate" type="date">
+            <column name="lastUpdateDate" length="0" not-null="true" />
+        </property>
+        <property name="logisticsOrderPrice" type="java.lang.Integer">
+            <column name="logisticsOrderPrice" />
+        </property>
+        <property name="logisticsOrderTip" type="java.lang.Integer">
+            <column name="logisticsOrderTip" />
+        </property>
+        <set name="logisticsorderlines" table="logisticsorderline" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="logisticsOrderID" />
+            </key>
+            <one-to-many class="Hibernate.model.Logisticsorderline" />
+        </set>
+    </class>
+</hibernate-mapping>

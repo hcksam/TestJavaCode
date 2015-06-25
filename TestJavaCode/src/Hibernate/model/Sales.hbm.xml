@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015?~6??23?? ?U??07:41:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Hibernate.model.Sales" table="sales" catalog="phoneartshop" optimistic-lock="version">
+        <composite-id name="id" class="Hibernate.model.SalesId">
+            <key-property name="quantity" type="java.lang.Integer">
+                <column name="quantity" />
+            </key-property>
+            <key-property name="salesRemark" type="string">
+                <column name="salesRemark" length="250" />
+            </key-property>
+            <key-property name="salesStatus" type="string">
+                <column name="salesStatus" length="10" />
+            </key-property>
+            <key-property name="salesUser" type="java.lang.Integer">
+                <column name="salesUser" />
+            </key-property>
+            <key-property name="salesDate" type="date">
+                <column name="salesDate" length="0" />
+            </key-property>
+            <key-property name="lastUpdateUser" type="java.lang.Integer">
+                <column name="lastUpdateUser" />
+            </key-property>
+            <key-property name="lastUpdateDate" type="date">
+                <column name="lastUpdateDate" length="0" />
+            </key-property>
+            <key-property name="shopId" type="java.lang.Integer">
+                <column name="shopID" />
+            </key-property>
+            <key-property name="supplierId" type="java.lang.Integer">
+                <column name="supplierID" />
+            </key-property>
+            <key-property name="productId" type="java.lang.Integer">
+                <column name="productID" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="shop" class="Hibernate.model.Shop" update="false" insert="false" fetch="select">
+            <column name="shopID" />
+        </many-to-one>
+        <many-to-one name="supplierproductline" class="Hibernate.model.Supplierproductline" update="false" insert="false" fetch="select">
+            <column name="supplierID" />
+            <column name="productID" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

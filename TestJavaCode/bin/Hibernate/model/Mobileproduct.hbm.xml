@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015?~6??23?? ?U??07:41:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Hibernate.model.Mobileproduct" table="mobileproduct" catalog="phoneartshop" optimistic-lock="version">
+        <id name="mobileProductId" type="int">
+            <column name="mobileProductID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="productcompany" class="Hibernate.model.Productcompany" fetch="select">
+            <column name="productCompanyID" />
+        </many-to-one>
+        <property name="mobileProductName" type="string">
+            <column name="mobileProductName" length="30" not-null="true" />
+        </property>
+        <property name="mobileProductStortName" type="string">
+            <column name="mobileProductStortName" length="30" />
+        </property>
+        <property name="mobileProductModel" type="string">
+            <column name="mobileProductModel" length="30" />
+        </property>
+        <property name="mobileProductStatus" type="string">
+            <column name="mobileProductStatus" length="10" />
+        </property>
+        <property name="lastUpdateUser" type="string">
+            <column name="lastUpdateUser" length="10" />
+        </property>
+        <property name="lastUpdateDate" type="date">
+            <column name="lastUpdateDate" length="0" />
+        </property>
+    </class>
+</hibernate-mapping>
