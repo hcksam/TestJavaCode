@@ -2,6 +2,7 @@
 /Boolean/
 /String/
 /common/
+/csv/
 /date/
 /defaultValue/
 /email/
@@ -13,4 +14,3 @@
 /poi/
 /temp/
 /xml/
-/csv/
