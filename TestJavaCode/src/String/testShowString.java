@@ -12,6 +12,7 @@ public class testShowString {
 		als.add("a");
 		als.add("b");
 		als.add("c");
+		System.out.println(Arrays.toString(as));
 	}
 
 }
