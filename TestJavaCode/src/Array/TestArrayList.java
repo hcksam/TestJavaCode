@@ -13,15 +13,11 @@ public class TestArrayList {
 		al.add("4");
 		al.add("5");
 		
-		boolean first = true;
+		al.remove(1);
+		al.remove(2);
 		
 		for (String s:al){
 			System.out.println(s);
-			if (first){
-				first = false;
-				al.remove(1);
-				al.remove(2);
-			}
 		}
 	}
 
