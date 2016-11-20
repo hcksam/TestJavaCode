@@ -18,5 +18,7 @@
 	<classpathentry kind="lib" path="lib/commons-email-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/com.mysql.jdbc_5.1.5.jar"/>
 	<classpathentry kind="lib" path="lib/diffutils-1.2.1.jar" sourcepath="lib/diffutils-1.2.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.4-src.jar"/>
+	<classpathentry kind="lib" path="lib/juniversalchardet-1.0.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
