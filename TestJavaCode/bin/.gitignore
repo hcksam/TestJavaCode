@@ -1,11 +1,10 @@
-/Array/
-/Boolean/
-/Class/
-/Double/
 /Hibernate/
+/Instanceof/
+/Sort/
 /Static/
 /String/
 /calculate/
+/com/
 /common/
 /csv/
 /date/
@@ -23,4 +22,5 @@
 /temp/
 /tool/
 /xml/
-/Sort/
+/Bean/
+/Extends/
