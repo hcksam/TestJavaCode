@@ -34,17 +34,17 @@ public class BatchSPCBANewCSLRptLoader extends BatchDtoLoader{
 							value = parseDate(column, sdft_Mdyyyy);
 						}
 						if (columnName.equals("MONTHLY_CHARGE")){
-							value = Double.parseDouble(parseString(column).substring(1));
+							value = parseDouble(parseString(column).substring(1));
 						}
 						if (columnName.equals("PROGRAM_START_DATE")){
 							value = parseDate(column, sdft_MMddyyyy);
 						}
-						if (columnName.equals("PROGRAM_END_DATE")){
-							value = parseDate(column, sdft_yyyyMMdd);
-						}
-						if (columnName.equals("PROGRAM_REMOVAL_DATE")){
-							value = parseDate(column, sdft_yyyyMMdd);
-						}
+//						if (columnName.equals("PROGRAM_END_DATE")){
+//							value = parseDate(column, sdft_yyyyMMdd);
+//						}
+//						if (columnName.equals("PROGRAM_REMOVAL_DATE")){
+//							value = parseDate(column, sdft_yyyyMMdd);
+//						}
 						if (columnName.equals("COMMENCEMENT_DATE")){
 							value = parseDate(column, sdft_MMddyyyy);
 						}
