@@ -3,10 +3,10 @@ package Bean;
 import java.io.File;
 import java.util.ArrayList;
 
+import com.pccw.srm.batch.dto.BatchLoaderDto;
 import com.pccw.srm.batch.dto.SPCBANewCSLRptDto;
 import com.pccw.srm.batch.util.BatchCSVWriter;
-import com.pccw.srm.batch.util.BatchSPCBANewCSLRptLoader;
-import com.pccw.srm.batch.util.BatchSPCBANewCSLRptWriter;
+import com.pccw.srm.batch.util.BatchDtoLoader;
 import com.pccw.srm.batch.util.BatchXLSReader;
 
 public class TestLoadBean {
@@ -18,13 +18,28 @@ public class TestLoadBean {
 		BatchXLSReader cr = new BatchXLSReader();
 		ArrayList data = cr.readExcelData(file, 1);
 		
-		SPCBANewCSLRptDto dto = new SPCBANewCSLRptDto();
+//		SPCBANewCSLRptDto dto = new SPCBANewCSLRptDto();
 //		BatchCSVWriter.writeCSV(outFile, data, dto.getColumnNames());
 //		BatchSPCBANewCSLRptWriter.writeCSV(outFile, BatchSPCBANewCSLRptLoader.loadDto(data), dto.getColumnNames());
-		BatchCSVWriter cw = new BatchCSVWriter();
-		BatchSPCBANewCSLRptLoader lo = new BatchSPCBANewCSLRptLoader();
+//		BatchCSVWriter cw = new BatchCSVWriter();
+//		BatchSPCBANewCSLRptLoader lo = new BatchSPCBANewCSLRptLoader();
 //		cw.writeCSV(outFile2, data, dto.getColumnNames());
-		cw.writeCSV(outFile, lo.loadDto(data), dto.getColumnNames());
+//		cw.writeCSV(outFile, lo.loadDto(data), dto.getColumnNames());
+		
+		BatchDtoLoader loader = new BatchDtoLoader();
+		String[][] loadMap = {
+				{"SHOP_ID","String"},
+				{"CHANNEL","String"},
+				{"BRAND","String"},
+				{"SALES_CREATE_DATE","Date","M/d/yyyy H:m:s"},
+				{"SUBMITTED_DATE","Date","M/d/yyyy H:m:s"},
+//				{"MONTHLY_CHARGE","Double"},
+				{"PROGRAM_START_DATE","Date","MM/dd/yyyy HH:mm:ss"},
+				{"PROGRAM_END_DATE","Date","yyyy-MM-dd HH:mm:ss"},
+				{"IDD_ROAMING_SUBSCRIPTION","Double"},
+				{"VAS_CHARGE","Double"}
+		};
+		ArrayList<BatchLoaderDto> dtoData = loader.loadDto(data, SPCBANewCSLRptDto.class, loadMap);
 		System.out.println("Done");
 	}
 

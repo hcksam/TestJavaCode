@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FileUtils;
@@ -12,7 +13,7 @@ import org.apache.commons.io.FileUtils;
 import com.pccw.srm.batch.JobDataMapKeys;
 import com.pccw.srm.batch.dto.BatchLoaderDto;
 
-public class BatchCSVWriter{
+public class BatchCSVWriter{	
 	SimpleDateFormat sdf = JobDataMapKeys.DATE_TIME_FORMAT;
 	String delimiter = ",";
 	String textDelimiter = "\"";
@@ -103,6 +104,42 @@ public class BatchCSVWriter{
 //		}
 //	}
 	
+	public ArrayList<ArrayList<String>> readCSVAsString(File file, int skipNum) throws Exception{
+		try{
+			List<String> data = FileUtils.readLines(file);
+			ArrayList<ArrayList<String>> outData = new ArrayList<ArrayList<String>>();
+			
+			for (int r=0;r<data.size();r++){
+				if (r<skipNum){
+					continue;
+				}
+				String row = data.get(r);
+				String[] tcs = row.split(Pattern.quote(delimiter));
+				ArrayList<String> columns = new ArrayList<String>();
+				boolean isText = false;
+				String text = null;
+				for (String tc:tcs){
+//					int tbi = tc.indexOf(textDelimiter);
+//					if (!isText && tbi >= 0){
+//						if (tc == null){
+//							isText = true;
+//							int tei = tc.indexOf(textDelimiter,tbi);
+//							tc = 
+//						}else{
+//							
+//						}
+//					}else{
+//						columns.add(sr);
+//					}
+				}
+			}
+			
+			return outData;
+		}catch (Exception e){
+			throw e;
+		}
+	}
+	
 	void setHeader(ArrayList<String> outData, String[] header) throws Exception{
 		if (header != null){
 			String line = getLine(Arrays.asList(header));
@@ -116,7 +153,7 @@ public class BatchCSVWriter{
 			BatchLoaderDto dto = (BatchLoaderDto) rowObject;
 			line = getLine(dto);
 		}else{
-			List row = (List) rowObject;
+			List<String> row = (List<String>) rowObject;
 			line = getLine(row);
 		}
 		
@@ -124,7 +161,7 @@ public class BatchCSVWriter{
 		outData.add(line);
 	}
 	
-	String getLine(List row) throws Exception{
+	String getLine(List<String> row) throws Exception{
 		String line = "";
 		for (Object column:row){
 			String value = getOutValue(column);
@@ -150,7 +187,7 @@ public class BatchCSVWriter{
 		String value = "";
 		if (inValue != null){
 			value = String.valueOf(inValue);
-			value = value.replaceAll(textDelimiter, textDelimiter+textDelimiter);
+			value = value.replaceAll(Pattern.quote(textDelimiter), textDelimiter+textDelimiter);
 			value = textDelimiter+value+textDelimiter;
 		}
 		return value;

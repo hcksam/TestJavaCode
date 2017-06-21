@@ -27,10 +27,6 @@ public class BatchDtoLoader {
 //		return columnNames;
 //	}
 	
-	public ArrayList<BatchLoaderDto> loadDto(ArrayList<ArrayList<Object>> data, Class dtoClass) throws Exception{
-		return loadDto(data, dtoClass, INDEX_NORMAL);
-	}
-	
 	public String parseString(Object object) throws Exception{
 		return (object == null)? null:String.valueOf(object);
 	}
@@ -75,17 +71,17 @@ public class BatchDtoLoader {
 	public Object parseType(Object column, String columnType, SimpleDateFormat sdf) throws Exception{
 		Object value = column;
 		if (column != null){
-			if (columnType.equals("Date") && !(column instanceof java.util.Date)){
+			if (columnType.equalsIgnoreCase("Date") && !(column instanceof java.util.Date)){
 				try{
 					value = parseDate(column, sdf);
 				}catch (Exception e){
 				}
-			}else if (columnType.equals("String") && !(column instanceof String)){
+			}else if (columnType.equalsIgnoreCase("String") && !(column instanceof String)){
 				try{
 					value = parseString(column);
 				}catch (Exception e){
 				}
-			}else if (columnType.equalsIgnoreCase("double") && !(column instanceof Double)){
+			}else if (columnType.equalsIgnoreCase("Double") && !(column instanceof Double)){
 				try{
 					value = parseDouble(parseString(column));
 				}catch (Exception e){
@@ -95,6 +91,10 @@ public class BatchDtoLoader {
 		}else{
 			return null;
 		}
+	}
+	
+	public ArrayList<BatchLoaderDto> loadDto(ArrayList<ArrayList<Object>> data, Class dtoClass) throws Exception{
+		return loadDto(data, dtoClass, INDEX_NORMAL);
 	}
 	
 	public ArrayList<BatchLoaderDto> loadDto(ArrayList<ArrayList<Object>> data, Class dtoClass, int INDEX) throws Exception{
