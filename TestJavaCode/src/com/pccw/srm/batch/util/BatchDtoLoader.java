@@ -27,11 +27,11 @@ public class BatchDtoLoader {
 //		return columnNames;
 //	}
 	
-	public String parseString(Object object) throws Exception{
+	public static String parseString(Object object) throws Exception{
 		return (object == null)? null:String.valueOf(object);
 	}
 	
-	public Double parseDouble(Object object) throws Exception{
+	public static Double parseDouble(Object object) throws Exception{
 		String s = parseString(object);
 		if (s == null || s.trim().equals("")){
 			return null;
@@ -41,7 +41,7 @@ public class BatchDtoLoader {
 	}
 	
 	
-	public Date parseDate(Object object, SimpleDateFormat sdf) throws Exception{
+	public static Date parseDate(Object object, SimpleDateFormat sdf) throws Exception{
 		String s = parseString(object);
 		if (s == null || s.trim().equals("")){
 			return null;
@@ -50,12 +50,12 @@ public class BatchDtoLoader {
 		}
 	}
 	
-	public Object parseType(BatchLoaderDto dto, String columnName, Object column) throws Exception{
+	public static Object parseType(BatchLoaderDto dto, String columnName, Object column) throws Exception{
 		return parseType(dto, columnName, column, sdft_yyyyMMdd);
 	}
 	
-	public Object parseType(BatchLoaderDto dto, String columnName, Object column, SimpleDateFormat sdf) throws Exception{
-		if (column != null){
+	public static Object parseType(BatchLoaderDto dto, String columnName, Object column, SimpleDateFormat sdf) throws Exception{
+		if (column != null && String.valueOf(column).trim().length() > 0){
 			String columnType = PropertyUtils.getPropertyType(dto, columnName).getSimpleName();
 			Object value = parseType(column, columnType, sdf);
 			return value;
@@ -64,13 +64,13 @@ public class BatchDtoLoader {
 		}
 	}
 	
-	public Object parseType(Object column, String columnType) throws Exception{
+	public static Object parseType(Object column, String columnType) throws Exception{
 		return parseType(column, columnType, null);
 	}
 	
-	public Object parseType(Object column, String columnType, SimpleDateFormat sdf) throws Exception{
+	public static Object parseType(Object column, String columnType, SimpleDateFormat sdf) throws Exception{
 		Object value = column;
-		if (column != null){
+		if (column != null && String.valueOf(column).trim().length() > 0){
 			if (columnType.equalsIgnoreCase("Date") && !(column instanceof java.util.Date)){
 				try{
 					value = parseDate(column, sdf);
@@ -123,10 +123,17 @@ public class BatchDtoLoader {
 				BatchLoaderDto dto = (BatchLoaderDto) dtoClass.newInstance();
 				for (int c=0;c<dto.getColumnNames().length;c++){
 					Object column = row.get(c);
-					if (column != null){
+					if (column != null && String.valueOf(column).trim().length() > 0){
 						String columnName = columnNames[c];
 						Object value = parseType(dto, columnName, column);
-						PropertyUtils.setSimpleProperty(dto, columnName, value);
+						try{
+							PropertyUtils.setSimpleProperty(dto, columnName, value);
+						}catch(IllegalArgumentException e){
+							System.out.println("ERROR!");
+							System.out.println("columnName: "+columnName);
+							System.out.println("columnValue: "+value);
+							throw e;
+						}
 					}
 				}
 				dtoData.add(dto);

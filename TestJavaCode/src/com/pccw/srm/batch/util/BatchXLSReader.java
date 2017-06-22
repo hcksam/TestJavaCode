@@ -52,7 +52,7 @@ public class BatchXLSReader{
 		                    	value = cell.getStringCellValue();
 		                    }
 							
-							if (String.valueOf(value).trim().equals("")){
+							if (value != null && String.valueOf(value).trim().length() > 0){
 								value = null;
 							}
 							
