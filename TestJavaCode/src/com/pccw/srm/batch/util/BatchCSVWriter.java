@@ -1,6 +1,7 @@
 package com.pccw.srm.batch.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FileUtils;
+import org.mozilla.universalchardet.UniversalDetector;
 
 import com.pccw.srm.batch.JobDataMapKeys;
 import com.pccw.srm.batch.dto.BatchLoaderDto;
@@ -77,15 +79,13 @@ public class BatchCSVWriter{
 	public void writeCSV(File file, List allData, String[] header) throws Exception{
 		try{
 			ArrayList<String> outData = new ArrayList<String>();
-			int columnNum = allData.size();
 			
 			if (header != null){
 				String line = getLine(Arrays.asList(header));
 	    		outData.add(line);
-	    		columnNum = header.length;
 			}
 			
-			for (int i=0;i<columnNum;i++){
+			for (int i=0;i<allData.size();i++){
 				setData(outData, allData.get(i));
 			}
 			
@@ -116,7 +116,8 @@ public class BatchCSVWriter{
 	
 	public ArrayList<ArrayList<String>> readCSV(File file, int skipNum, boolean keepTextDelimiter) throws Exception{
 		try{
-			List<String> data = FileUtils.readLines(file);
+			String encoding = getEncoding(file);
+			List<String> data = FileUtils.readLines(file, encoding);
 			ArrayList<ArrayList<String>> outData = new ArrayList<ArrayList<String>>();
 			
 			int columnNum = 0;
@@ -295,4 +296,27 @@ public class BatchCSVWriter{
 	public static int countDelimiter(String inValue, String delimiter){
 		return inValue.length() - inValue.replaceAll(Pattern.quote(delimiter), "").length();
 	}
+	
+	public static String getEncoding(File file){
+        try{
+            byte[] buf = new byte[4096];
+            FileInputStream fis = new FileInputStream(file);
+            UniversalDetector detector = new UniversalDetector(null);
+            int nread;
+            while ((nread = fis.read(buf)) > 0 && !detector.isDone()) {
+                detector.handleData(buf, 0, nread);
+            }
+            detector.dataEnd();
+            String encoding = detector.getDetectedCharset();
+            detector.reset();
+            fis.close();
+            
+            if (encoding == null){
+                encoding = "UTF-8";
+            }
+            return encoding;
+        }catch (Exception e){
+            return null;
+        }
+    }
 }

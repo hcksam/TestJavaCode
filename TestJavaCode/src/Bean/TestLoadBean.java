@@ -16,7 +16,7 @@ public class TestLoadBean {
 		File outFile = new File("C:/working/pccw-srm/workspace/test/ftp/SP_CBA_NewCSLReport.csv");
 		File outFile2 = new File("C:/working/pccw-srm/workspace/test/ftp/SP_CBA_NewCSLReport_2.csv");
 		BatchXLSReader cr = new BatchXLSReader();
-//		ArrayList data = cr.readExcelData(file, 1);
+		ArrayList data = cr.readExcelData(file, 1);
 		
 //		SPCBANewCSLRptDto dto = new SPCBANewCSLRptDto();
 //		BatchCSVWriter.writeCSV(outFile, data, dto.getColumnNames());
@@ -43,7 +43,7 @@ public class TestLoadBean {
 		
 		BatchSPCBANewCSLRptLoader loader = new BatchSPCBANewCSLRptLoader();
 		BatchCSVWriter csv = new BatchCSVWriter();
-		ArrayList data = csv.readCSV(outFile, 1);
+//		ArrayList data = csv.readCSV(outFile, 1);
 //		for (Object r:data){
 //			ArrayList<String> row = (ArrayList<String>) r;
 //			String line = "";
@@ -52,12 +52,13 @@ public class TestLoadBean {
 //			}
 //			System.out.println(line);
 //		}
-		ArrayList<BatchLoaderDto> dtoData = loader.loadDto(data, SPCBANewCSLRptDto.class);
-//		ArrayList<SPCBANewCSLRptDto> dtoData = loader.loadDto(data);
+//		ArrayList<BatchLoaderDto> dtoData = loader.loadDto(data, SPCBANewCSLRptDto.class);
+		ArrayList<SPCBANewCSLRptDto> dtoData = loader.loadDto(data);
 //		for (BatchLoaderDto dto:dtoData){
 //			System.out.println(dto);
 //		}
-		csv.writeCSV(outFile2, dtoData, new SPCBANewCSLRptDto().getColumnNames());
+		csv.writeCSV(outFile, dtoData, new SPCBANewCSLRptDto().getColumnNames());
+//		csv.writeCSV(outFile2, dtoData, new SPCBANewCSLRptDto().getColumnNames());
 		System.out.println("Done");
 	}
 
