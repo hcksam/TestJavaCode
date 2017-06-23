@@ -15,10 +15,13 @@ import org.mozilla.universalchardet.UniversalDetector;
 import com.pccw.srm.batch.JobDataMapKeys;
 import com.pccw.srm.batch.dto.BatchLoaderDto;
 
-public class BatchCSVUtil{	
-	SimpleDateFormat sdf = JobDataMapKeys.DATE_TIME_FORMAT;
-	String delimiter = ",";
-	String textDelimiter = "\"";
+public class BatchCSVUtil{
+	public final static SimpleDateFormat SDF = JobDataMapKeys.DATE_TIME_FORMAT;
+	public final static String Delimiter = ",";
+	public final static String TextDelimiter = "\"";
+	SimpleDateFormat sdf = SDF;
+	String delimiter = Delimiter;
+	String textDelimiter = TextDelimiter;
 	
 	public BatchCSVUtil(){
 	}
@@ -94,21 +97,6 @@ public class BatchCSVUtil{
 			throw e;
 		}
 	}
-	
-//	public void writeCSV(File file, ArrayList<BatchLoaderDto> allData, String[] header) throws Exception{
-//		try{
-//			ArrayList<String> outData = new ArrayList<String>();
-//			setHeader(outData, header);
-//			
-//			for (int i=0;i<allData.size();i++){
-//				setData(outData, allData.get(i));
-//			}
-//			
-//			FileUtils.writeLines(file, outData);
-//		}catch (Exception e){
-//			throw e;
-//		}
-//	}
 	
 	public ArrayList<ArrayList<String>> readCSV(File file, int skipNum) throws Exception{
 		return readCSV(file, skipNum, false);
@@ -281,6 +269,34 @@ public class BatchCSVUtil{
 		}
 		return value;
 	}
+	
+//	public static void WriteCSV(File file, List data) throws Exception{
+//		WriteCSV(file, data, null, Delimiter, TextDelimiter, SDF);
+//	}
+//	
+//	public static void WriteCSV(File file, List data, String[] header) throws Exception{
+//		WriteCSV(file, data, header, Delimiter, TextDelimiter, SDF);
+//	}
+//	
+//	public static void WriteCSV(File file, List data, String[] header, String delimiter) throws Exception{
+//		WriteCSV(file, data, header, delimiter, TextDelimiter, SDF);
+//	}
+//	
+//	public static void WriteCSV(File file, List data, String delimiter) throws Exception{
+//		WriteCSV(file, data, null, delimiter, TextDelimiter, SDF);
+//	}
+//	
+//	public static void WriteCSV(File file,List data, String delimiter, SimpleDateFormat sdf) throws Exception{
+//		WriteCSV(file, data, null, delimiter, TextDelimiter, sdf);
+//	}
+//	
+//	public static void WriteCSV(File file, List data, SimpleDateFormat sdf) throws Exception{
+//		WriteCSV(file, data, null, Delimiter, TextDelimiter, sdf);
+//	}
+//	
+//	public static void WriteCSV(File file, List data, String[] header, String delimiter, String textDelimiter, SimpleDateFormat sdf) throws Exception{
+//		new BatchCSVUtil(delimiter, textDelimiter, sdf).writeCSV(file, data, header);
+//	}
 	
 	public static boolean inTextDelimiter(String inValue, String textDelimiter){
 		if (inValue == null || inValue.length()<textDelimiter.length()*2){
