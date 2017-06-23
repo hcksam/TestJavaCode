@@ -2,7 +2,7 @@ package com.pccw.srm.batch.util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Hashtable;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
@@ -26,72 +26,6 @@ public class BatchDtoLoader {
 //		Collections.reverse(columnNames);
 //		return columnNames;
 //	}
-	
-	public static String parseString(Object object) throws Exception{
-		return (object == null)? null:String.valueOf(object);
-	}
-	
-	public static Double parseDouble(Object object) throws Exception{
-		String s = parseString(object);
-		if (s == null || s.trim().equals("")){
-			return null;
-		}else{
-			return Double.valueOf(s);
-		}
-	}
-	
-	
-	public static Date parseDate(Object object, SimpleDateFormat sdf) throws Exception{
-		String s = parseString(object);
-		if (s == null || s.trim().equals("")){
-			return null;
-		}else{
-			return sdf.parse(s);
-		}
-	}
-	
-	public static Object parseType(BatchLoaderDto dto, String columnName, Object column) throws Exception{
-		return parseType(dto, columnName, column, sdft_yyyyMMdd);
-	}
-	
-	public static Object parseType(BatchLoaderDto dto, String columnName, Object column, SimpleDateFormat sdf) throws Exception{
-		if (column != null && String.valueOf(column).trim().length() > 0){
-			String columnType = PropertyUtils.getPropertyType(dto, columnName).getSimpleName();
-			Object value = parseType(column, columnType, sdf);
-			return value;
-		}else{
-			return null;
-		}
-	}
-	
-	public static Object parseType(Object column, String columnType) throws Exception{
-		return parseType(column, columnType, null);
-	}
-	
-	public static Object parseType(Object column, String columnType, SimpleDateFormat sdf) throws Exception{
-		Object value = column;
-		if (column != null && String.valueOf(column).trim().length() > 0){
-			if (columnType.equalsIgnoreCase("Date") && !(column instanceof java.util.Date)){
-				try{
-					value = parseDate(column, sdf);
-				}catch (Exception e){
-				}
-			}else if (columnType.equalsIgnoreCase("String") && !(column instanceof String)){
-				try{
-					value = parseString(column);
-				}catch (Exception e){
-				}
-			}else if (columnType.equalsIgnoreCase("Double") && !(column instanceof Double)){
-				try{
-					value = parseDouble(parseString(column));
-				}catch (Exception e){
-				}
-			}
-			return value;
-		}else{
-			return null;
-		}
-	}
 	
 	public ArrayList<BatchLoaderDto> loadDto(ArrayList<ArrayList<Object>> data, Class dtoClass) throws Exception{
 		return loadDto(data, dtoClass, INDEX_NORMAL);
@@ -125,7 +59,7 @@ public class BatchDtoLoader {
 					Object column = row.get(c);
 					if (column != null && String.valueOf(column).trim().length() > 0){
 						String columnName = columnNames[c];
-						Object value = parseType(dto, columnName, column);
+						Object value = BatchParseType.parseType(dto, columnName, column);
 						try{
 							PropertyUtils.setSimpleProperty(dto, columnName, value);
 						}catch(IllegalArgumentException e){
@@ -146,6 +80,10 @@ public class BatchDtoLoader {
 	}
 	
 	public ArrayList<BatchLoaderDto> loadDto(ArrayList<ArrayList<Object>> data, Class dtoClass, String[][] loadMap) throws Exception{
+		return loadDto(data, dtoClass, loadMap, null);
+	}
+	
+	public ArrayList<BatchLoaderDto> loadDto(ArrayList<ArrayList<Object>> data, Class dtoClass, String[][] loadMap, Hashtable<String, BatchParseType> parseTypeMap) throws Exception{
 		ArrayList<BatchLoaderDto> dtoData = new ArrayList<BatchLoaderDto>();
 		try{
 			if (data == null || data.size() <= 0){
@@ -174,7 +112,22 @@ public class BatchDtoLoader {
 					String columnType = lm[1];
 					SimpleDateFormat sdf = columnType.equalsIgnoreCase("Date")? new SimpleDateFormat(lm[2]):null;
 					Object column = row.get(columnIndexs[i]);
-					PropertyUtils.setSimpleProperty(dto, columnName, parseType(column, columnType, sdf));
+					BatchParseType pt = (parseTypeMap != null)? parseTypeMap.get(columnName):null;
+					Object value = column;
+					boolean isRewrite = false;
+					if (pt != null){
+						isRewrite = pt.isRewrite();
+						value = pt.parseType(column);
+					}
+					value = (isRewrite)? value:BatchParseType.parseType(value, columnType, sdf);
+					try{
+						PropertyUtils.setSimpleProperty(dto, columnName, value);
+					}catch(IllegalArgumentException e){
+						System.out.println("ERROR!");
+						System.out.println("columnName: "+columnName);
+						System.out.println("columnValue: "+value);
+						throw e;
+					}
 				}
 				
 				dtoData.add(dto);

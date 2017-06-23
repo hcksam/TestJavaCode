@@ -25,19 +25,19 @@ public class BatchSPCBANewCSLRptLoader extends BatchDtoLoader{
 					Object column = row.get(c);
 					if (column != null){
 						String columnName = dto.getColumnNames()[c];
-						Object value = parseType(dto, columnName, column);
+						Object value = BatchParseType.parseType(dto, columnName, column);
 						
 						if (columnName.equals("SALES_CREATE_DATE")){
-							value = parseDate(column, sdft_Mdyyyy);
+							value = BatchParseType.parseDate(column, sdft_Mdyyyy);
 						}
 						if (columnName.equals("SUBMITTED_DATE")){
-							value = parseDate(column, sdft_Mdyyyy);
+							value = BatchParseType.parseDate(column, sdft_Mdyyyy);
 						}
 						if (columnName.equals("MONTHLY_CHARGE")){
-							value = parseDouble(parseString(column).substring(1));
+							value = BatchParseType.parseDouble(BatchParseType.parseString(column).substring(1));
 						}
 						if (columnName.equals("PROGRAM_START_DATE")){
-							value = parseDate(column, sdft_MMddyyyy);
+							value = BatchParseType.parseDate(column, sdft_MMddyyyy);
 						}
 //						if (columnName.equals("PROGRAM_END_DATE")){
 //							value = parseDate(column, sdft_yyyyMMdd);
@@ -46,19 +46,19 @@ public class BatchSPCBANewCSLRptLoader extends BatchDtoLoader{
 //							value = parseDate(column, sdft_yyyyMMdd);
 //						}
 						if (columnName.equals("COMMENCEMENT_DATE")){
-							value = parseDate(column, sdft_MMddyyyy);
+							value = BatchParseType.parseDate(column, sdft_MMddyyyy);
 						}
 						if (columnName.equals("EXPIRY_DATE")){
-							value = parseDate(column, sdft_MMddyyyy);
+							value = BatchParseType.parseDate(column, sdft_MMddyyyy);
 						}
 						if (columnName.equals("CUT_OVER_DATE")){
-							value = parseDate(column, sdft_Mdyyyy);
+							value = BatchParseType.parseDate(column, sdft_Mdyyyy);
 						}
 						if (columnName.equals("SERVICE_EFFECTIVE_DATE")){
-							value = parseDate(column, sdft_Mdyyyy);
+							value = BatchParseType.parseDate(column, sdft_Mdyyyy);
 						}
 						if (columnName.equals("WPOS_SUBMITTED_DATE")){
-							value = parseDate(column, sdft_Mdyyyy);
+							value = BatchParseType.parseDate(column, sdft_Mdyyyy);
 						}
 						
 						PropertyUtils.setSimpleProperty(dto, columnName, value);

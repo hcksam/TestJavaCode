@@ -15,31 +15,31 @@ import org.mozilla.universalchardet.UniversalDetector;
 import com.pccw.srm.batch.JobDataMapKeys;
 import com.pccw.srm.batch.dto.BatchLoaderDto;
 
-public class BatchCSVWriter{	
+public class BatchCSVUtil{	
 	SimpleDateFormat sdf = JobDataMapKeys.DATE_TIME_FORMAT;
 	String delimiter = ",";
 	String textDelimiter = "\"";
 	
-	public BatchCSVWriter(){
+	public BatchCSVUtil(){
 	}
 	
-	public BatchCSVWriter(String delimiter){
+	public BatchCSVUtil(String delimiter){
 		init(delimiter, null, null);
 	}
 	
-	public BatchCSVWriter(String delimiter, String textDelimiter){
+	public BatchCSVUtil(String delimiter, String textDelimiter){
 		init(delimiter, textDelimiter, null);
 	}
 	
-	public BatchCSVWriter(String delimiter, String textDelimiter, SimpleDateFormat sdf){
+	public BatchCSVUtil(String delimiter, String textDelimiter, SimpleDateFormat sdf){
 		init(delimiter, textDelimiter, sdf);
 	}
 	
-	public BatchCSVWriter(SimpleDateFormat sdf){
+	public BatchCSVUtil(SimpleDateFormat sdf){
 		init(null, null, sdf);
 	}
 	
-	public BatchCSVWriter(String delimiter, SimpleDateFormat sdf){
+	public BatchCSVUtil(String delimiter, SimpleDateFormat sdf){
 		init(delimiter, null, sdf);
 	}
 	
