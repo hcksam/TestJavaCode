@@ -13,9 +13,12 @@ public class TextCompraer {
 //		File f2 = new File("C:/Users/01311588/Documents/","test2.csv");
 //		File f1 = new File("D:/Temp/FTP/uat/CR2017002/","test7.csv");
 //		File f2 = new File("D:/Temp/FTP/uat/CR2017002/","test8.csv");
-		File f1 = new File("C:/working/pccw-srm/workspace/test/ftp/","SP_CBA_NewCSLReport.csv");
-		File f2 = new File("C:/working/pccw-srm/workspace/test/ftp/","SP_CBA_NewCSLReport_20170427.csv");
-		
+//		File f1 = new File("C:/working/pccw-srm/workspace/test/ftp/","SP_CBA_NewCSLReport.csv");
+//		File f2 = new File("C:/working/pccw-srm/workspace/test/ftp/","SP_CBA_NewCSLReport_20170427.csv");
+//		File f1 = new File("C:/Users/01311588/","pd.sql");
+//		File f2 = new File("C:/Users/01311588/","pd2.sql");
+		File f1 = new File("C:/Users/01311588/","test1a.csv");
+		File f2 = new File("C:/Users/01311588/","test2a.csv");
 		
 		try{
 			List<String> l1 = FileUtils.readLines(f1);
@@ -35,9 +38,9 @@ public class TextCompraer {
 				}
 			}
 		}catch (Exception e){
-			System.out.println("ERROR!");;
+			System.out.println("ERROR!");
 		}
-		System.out.println("Complete run!");;
+		System.out.println("Complete run!");
 	}
 
 }
