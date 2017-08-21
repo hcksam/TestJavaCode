@@ -90,12 +90,32 @@ public class TestList {
 		}
 	}
 	
+	public static void testMain4(){
+		LinkedList<String> l1 = new LinkedList<String>();
+		l1.add("1");
+		l1.add("2");
+		l1.add("3");
+		
+		int c = 0;
+		for (String s:l1){
+			if (c++ == 1){
+				l1.remove(s);	
+			}
+		}
+		
+		for (String s:l1){
+			System.out.println(s);
+		}
+	}
+	
 	public static void main(String[] args) throws Exception{
 //		TestList.testMain();
 		
 //		TestList.testMain2();
 		
-		TestList.testMain3();
+//		TestList.testMain3();
+		
+		TestList.testMain4();
 		
 		System.out.println("Complete");
 	}
