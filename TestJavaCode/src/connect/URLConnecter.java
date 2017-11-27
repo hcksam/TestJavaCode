@@ -1,18 +1,22 @@
 package connect;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.Authenticator;
+import java.net.ConnectException;
+import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 
 public class URLConnecter {
-	public final static int TIMEOUT_CONNECT = 60000;
-	public final static int TIMEOUT_READ = 60000;
+	public final static int TIMEOUT_CONNECT = 10000;
+	public final static int TIMEOUT_READ = TIMEOUT_CONNECT;
 	public final static int RETRY_LIMIT = 5;
 	
 	private int connectTimeout = TIMEOUT_CONNECT;
@@ -37,6 +41,10 @@ public class URLConnecter {
 		init(null, readTimeout, null, user, password);
 	}
 	
+	public URLConnecter(Integer connectTimeout, Integer readTimeout, Integer retryLimit, String user, String password) {
+		init(connectTimeout, readTimeout, retryLimit, user, password);
+	}
+	
 	public void init(Integer connectTimeout, Integer readTimeout, Integer retryLimit, String user, String password){
 		if (connectTimeout != null){
 			this.connectTimeout = connectTimeout;
@@ -52,6 +60,20 @@ public class URLConnecter {
 	
 	public static String encode(String s) throws Exception{
 		return URLEncoder.encode(s, "UTF-8").replace("+", "%20");
+	}
+	
+	public static String getURLFileSize(String link) throws Exception{
+		URL url = new URL(link);
+		return getURLFileSize(url);
+	}
+	
+	public static String getURLFileSize(URL url) throws Exception{
+		String fileSize = null;
+		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+		if (uc.getResponseCode() == HttpURLConnection.HTTP_OK){
+			fileSize = uc.getHeaderField("content-Length");
+		}
+		return fileSize;
 	}
 	
 //	public void connect(String link) throws Exception{
@@ -83,37 +105,69 @@ public class URLConnecter {
 //        }
 //	}
 	
-	public void download(String link, String outFile) throws Exception{
-		download(link, new File(outFile));
+	public Exception download(String link, String outFile) throws Exception{
+		return download(link, new File(outFile));
 	}
 	
-	public void download(String link, File outFile) throws Exception{
-		System.out.println(new Date());
-		System.out.println("Start download "+outFile.getAbsolutePath()+" from "+link+" ...");
-		
+	public Exception download(String link, File outFile) throws Exception{
 		URL url = new URL(link);
 		boolean done = false;
+		boolean retry = true;
 		int retryCount = 0;
+		String fileSize = null;
+		Exception e = null;
 		
 		while (!done){
 			try {
-				FileUtils.copyURLToFile(url, outFile, connectTimeout, readTimeout);
-				done = true;
-			} catch (SocketTimeoutException ste){
-				done = false;
-				if (retryCount >= retryLimit){
-					ste.printStackTrace();
-					throw ste;
+				System.out.println(new Date());
+				System.out.println("Start download "+outFile.getAbsolutePath()+" from "+link+" ...");
+				fileSize = getURLFileSize(url);
+				if (fileSize != null){
+					System.out.println("File size: "+fileSize);
+					System.out.println("");
 				}
-				retryCount++;
+				FileUtils.copyURLToFile(url, outFile, connectTimeout, readTimeout);
+				if (String.valueOf(outFile.length()).equals(fileSize)){
+					done = true;
+				}else{
+					System.out.println("File size not match!");
+					System.out.println("Network file size: "+fileSize);
+					System.out.println("Local file size: "+outFile.length());
+				}
+			} catch (ConnectException ce){
+				e = ce;
+				System.out.println("Connection Fail!");
+			} catch (SocketTimeoutException ste){
+				e = ste;
 				System.out.println("Timeout");
 				System.out.println("Connection timeout(ms): "+connectTimeout);
 				System.out.println("Read timeout(ms): "+readTimeout);
+			} catch (FileNotFoundException fnfe){
+				e = fnfe;
+				retry = false;
+				System.out.println("File not find!");
+			}
+			
+			if (!done){
+				if (!retry || retryCount >= retryLimit){
+					break;
+				}
+				retryCount++;
 				System.out.println("Remaining retry count: "+(retryLimit-retryCount));
+				TimeUnit.SECONDS.sleep(5);
 			}
 		}
-		System.out.println("Download complete");
-		System.out.println(new Date());
+		
+		if (done){
+			e = null;
+			System.out.println("Download complete");
+			System.out.println(new Date());
+		}else{
+			System.out.println("Download fail");
+			System.out.println(new Date());
+		}
+		
+		return e;
 	}
 	
 	public void setAuthenticator(String user, String password){

@@ -42,6 +42,20 @@ public class TestBean {
 		this.number = number;
 	}
 
+	public boolean equals(TestBean testBean) {
+		boolean equals = true;
+		if (equals){
+			equals = name.equals(testBean.getName());
+		}
+		if (equals){
+			equals = runDate.equals(testBean.getRunDate());
+		}
+		if (equals){
+			equals = number == testBean.getNumber();
+		}
+		return equals;
+	}
+
 	@Override
 	public String toString() {
 		return "TestBean [name=" + name + ", runDate=" + runDate + ", number=" + number + "]";

@@ -47,11 +47,13 @@ public class TestConnectWithPassword {
 		String procOrderDate = "201705";
 		
 //		String remotePath = "http://10.1.118.241/ReportHome/MobileMkt/";
-		String remotePath = "http://ddns.toraou.com:8888/download/";
+//		String remotePath = "http://ddns.toraou.com:8888/download/";
+		String remotePath = "http://10.37.121.107:8081/war.srm.batch/";
 		String outPath = "C:/working/pccw-srm/workspace/test/ftp/";
 		
 //		String fileName = procOrderDate+" Mobile.CSV";
-		String fileName = "test5.csv";
+//		String fileName = "test5.csv";
+		String fileName = "war.srm.batch.war";
 		
 		String remoteFileName = URLConnecter.encode(fileName);
 		String outFileName = fileName.replace(' ', '_');
@@ -64,14 +66,9 @@ public class TestConnectWithPassword {
 		String user = null;
 		String password = null;
 		
-		try{
-			main2(link, user, password, outFile);
-		} catch (IOException e){
-			e.printStackTrace();
-			System.out.println("File not find!");
-		}
+		main2(link, user, password, outFile);
 		
+		System.out.println("All Commplete");
 		System.out.println(new Date());
-		System.out.println("Commplete");
 	}
 }
